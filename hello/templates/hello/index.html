@@ -9,7 +9,6 @@
 <body>
     <h1>{{title}}</h1>
     <p>{{message|safe}}</p>
-    <p><a href="{% url goto %}">{{goto}}</a></p>
     <table>
     <form action="{% url 'index' %}" method="post">
         {% csrf_token %}
