@@ -3,7 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from .models import Friend
 from .forms import HelloSearchForm
-from .forms import HelloCreateForm
+from .forms import FriendCreateForm
 
 def index(request):
     params = {
@@ -22,18 +22,14 @@ def index(request):
     return render(request, 'hello/index.html', params)
 
 def create(request):
-    params = { 
-        'title': 'Hello',
-        'form': HelloCreateForm(),
-    }
     if (request.method == 'POST'):
-        name = request.POST['name']
-        mail = request.POST['mail']
-        gender= 'gender' in request.POST
-        age = request.POST['age']
-        birth = request.POST['birthday']
-        friend = Friend(name=name, mail=mail, gender=gender, age=age, birthday=birth)
+        obj = Friend()
+        friend = FriendCreateForm(request.POST, instance=obj)
         friend.save()
         return redirect(to='/hello')
+    params = {
+        'title': 'Hello',
+        'form': FriendCreateForm(),
+    }
     return render(request, 'hello/create.html', params)
 
