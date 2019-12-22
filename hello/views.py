@@ -33,3 +33,17 @@ def create(request):
     }
     return render(request, 'hello/create.html', params)
 
+def edit(request, num):
+    obj = Friend.objects.get(id=num)
+    if (request.method == 'POST'):
+        friend = FriendCreateForm(request.POST, instance=obj)
+        friend.save()
+        return redirect(to='/hello')
+    params = {
+        'title': 'Hello',
+        'id': num,
+        'form': FriendCreateForm(instance=obj),
+    }
+    return render(request, 'hello/edit.html', params)
+
+       
