@@ -11,14 +11,15 @@ def index(request):
     params = {
         'title': 'Hello',
         'message': 'all firends.',
-        'search_form': FriendSearchForm,
+        'search_form': FriendFindForm,
         'data': [],
     }
     if (request.method == 'POST'):
-        num = request.POST['id']
-        item = Friend.objects.get(id=num)
-        params['data'] = [item]
-        params['form'] = FriendSearchForm(request.POST)
+        string = request.POST['find']
+        form = FriendFindForm(request.POST)
+        params['data'] = Friend.objects.filter(Q(name__contains=string)|\
+            Q(id__contains=string) |\
+            Q(mail__contains=string))
     else:
         params['data'] = Friend.objects.all()
     return render(request, 'hello/index.html', params)
