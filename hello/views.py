@@ -6,8 +6,9 @@ from .forms import FriendSearchForm
 from .forms import FriendFindForm
 from .forms import FriendForm
 from django.db.models import Q
+from django.core.paginator import Paginator
 
-def index(request):
+def index(request, num=1):
     params = {
         'title': 'Hello',
         'message': 'all firends.',
@@ -17,11 +18,13 @@ def index(request):
     if (request.method == 'POST'):
         string = request.POST['find']
         form = FriendFindForm(request.POST)
-        params['data'] = Friend.objects.filter(Q(name__contains=string)|\
+        data = Friend.objects.filter(Q(name__contains=string)|\
             Q(id__contains=string) |\
             Q(mail__contains=string))
     else:
-        params['data'] = Friend.objects.all()
+        data = Friend.objects.all()
+    page = Paginator(data, 5)
+    params['data'] = page.get_page(num)
     return render(request, 'hello/index.html', params)
 
 def create(request):
