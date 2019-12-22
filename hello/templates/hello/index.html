@@ -25,6 +25,7 @@
             <th>MAIL</th>
             <th>AGE</th>
             <th>BIRTHDAY</th>
+            <th>Edit</th>
             <th>Delete</th>
         </tr>
     {% for item in data %}
@@ -38,6 +39,7 @@
             <td>{{item.mail}}</td>
             <td>{{item.age}}</td>
             <td>{{item.birthday}}</td>
+            <td><a href="{% url 'edit' item.id %}">Edit</a></td>
             <td><a href="{% url 'delete' item.id %}">DELETE</a></td>
         </tr>
     {% endfor %}
