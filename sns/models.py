@@ -10,3 +10,8 @@ class Message(models.Model):
     share_count = models.IntegerField(default=0)
     pub_date = models.DatetimeField(auto_new_add=True)
 
+    def __str__(self):
+        return str(self.content) + ' (' + str(self.owner) + ' )'
+
+    def get_share(self):
+        return Message.objects.get(id=self.share_id)
