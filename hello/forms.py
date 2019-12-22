@@ -7,7 +7,7 @@ class FriendSearchForm(forms.Form):
 class FriendFindForm(forms.Form):
     find = forms.CharField(label='Find', required=False)
 
-class FriendCreateForm(forms.ModelForm):
+class FriendForm(forms.ModelForm):
     class Meta:
         model = Friend
         fields = ['name', 'mail', 'gender', 'age', 'birthday']

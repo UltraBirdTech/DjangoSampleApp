@@ -4,7 +4,7 @@ from django.shortcuts import redirect
 from .models import Friend
 from .forms import FriendSearchForm
 from .forms import FriendFindForm
-from .forms import FriendCreateForm
+from .forms import FriendForm
 from django.db.models import Q
 
 def index(request):
@@ -26,25 +26,25 @@ def index(request):
 def create(request):
     if (request.method == 'POST'):
         obj = Friend()
-        friend = FriendCreateForm(request.POST, instance=obj)
+        friend = FriendForm(request.POST, instance=obj)
         friend.save()
         return redirect(to='/hello')
     params = {
         'title': 'Hello',
-        'form': FriendCreateForm(),
+        'form': FriendForm(),
     }
     return render(request, 'hello/create.html', params)
 
 def edit(request, num):
     obj = Friend.objects.get(id=num)
     if (request.method == 'POST'):
-        friend = FriendCreateForm(request.POST, instance=obj)
+        friend = FriendForm(request.POST, instance=obj)
         friend.save()
         return redirect(to='/hello')
     params = {
         'title': 'Hello',
         'id': num,
-        'form': FriendCreateForm(instance=obj),
+        'form': FriendForm(instance=obj),
     }
     return render(request, 'hello/edit.html', params)
 
