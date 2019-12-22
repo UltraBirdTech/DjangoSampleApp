@@ -15,3 +15,6 @@ class Message(models.Model):
 
     def get_share(self):
         return Message.objects.get(id=self.share_id)
+
+    class Meta:
+        ordering = ('-pub_date',)
