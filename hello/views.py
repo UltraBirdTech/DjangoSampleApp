@@ -3,6 +3,7 @@ from django.http import HttpResponse
 from django.shortcuts import redirect
 from .models import Friend
 from .forms import FriendSearchForm
+from .forms import FriendFindForm
 from .forms import FriendCreateForm
 
 def index(request):
@@ -58,3 +59,20 @@ def delete(request, num):
      }
     return render(request, 'hello/delete.html', params)
 
+def find(request):
+    if (request.method == 'POST'):
+        msg = 'search result'
+        form = FriendFindForm(request.POST)
+        name_string = request.POST['find']
+        data = Friend.objects.filter(name=name_string)
+    else:
+        msg = 'search words...'
+        form = FriendFindForm(request.POST)
+        data = Friend.objects.all()
+    params = {
+        'title': 'Hello',
+        'message': msg,
+        'form': form,
+        'data': data,
+    }
+    return render(request, 'hello/find.html', params)

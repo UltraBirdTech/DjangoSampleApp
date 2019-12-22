@@ -4,6 +4,9 @@ from.models import Friend
 class FriendSearchForm(forms.Form):
     id = forms.IntegerField(label='ID')
 
+class FriendFindForm(forms.Form):
+    find = forms.CharField(label='Find', required=False)
+
 class FriendCreateForm(forms.ModelForm):
     class Meta:
         model = Friend
