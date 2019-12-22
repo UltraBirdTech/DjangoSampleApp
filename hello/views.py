@@ -5,6 +5,7 @@ from .models import Friend
 from .forms import FriendSearchForm
 from .forms import FriendFindForm
 from .forms import FriendCreateForm
+from django.db.models import Q
 
 def index(request):
     params = {
@@ -63,8 +64,10 @@ def find(request):
     if (request.method == 'POST'):
         msg = 'search result'
         form = FriendFindForm(request.POST)
-        name_string = request.POST['find']
-        data = Friend.objects.filter(name__contains=name_string)
+        string = request.POST['find']
+        data = Friend.objects.filter(Q(name__contains=string)|\
+            Q(id__contains=string) |\
+            Q(mail__contains=string))
     else:
         msg = 'search words...'
         form = FriendFindForm(request.POST)
