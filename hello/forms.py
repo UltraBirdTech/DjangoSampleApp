@@ -1,7 +1,7 @@
 from django import forms
 from.models import Friend
 
-class HelloSearchForm(forms.Form):
+class FriendSearchForm(forms.Form):
     id = forms.IntegerField(label='ID')
 
 class FriendCreateForm(forms.ModelForm):
