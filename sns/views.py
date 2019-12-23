@@ -15,4 +15,10 @@ def index(request):
     (public_user, public_group) = get_public()
 
     if request.method == 'POST':
-        # pass
+        if request.POST['mode'] == '__check__form__':
+            searchForm = SerachForm()
+            checkform - GroupCheckForm(request.user, request.POST)
+            glist = []
+            for item in request.POST.getlist('groups'):
+                glist.append(item)
+            messages = getyour?group?message(request.user, glist, None)
