@@ -47,3 +47,18 @@ def index(request):
             'search_form': searchform,
         }
         return render(request, 'sns/index.html', params)
+
+@login_required(login_url='/admin/login/')
+def groups(request):
+    friends = Friend.object.filter(owner=request.user)
+    if request.method == 'POST':
+        if request.POST['groups'] == '__groups_form__':
+            sel_grop = request.POST['groups']
+            gp = Group.objects.filter(owner=request.user).filter(title=sel_group).first()
+            fds = Friend.objects.filter(owner=request.user).filter(group=gp)
+            vlist = []
+            for item in fds:
+                vlist.append(item.user.username)
+            groupsform = GroupSelectForm(request.user, request.POST)
+            friendsform = FriendsForm(request.user, friends=friends, vals=vlist)
+
