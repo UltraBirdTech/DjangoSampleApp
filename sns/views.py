@@ -21,7 +21,7 @@ def index(request):
             glist = []
             for item in request.POST.getlist('groups'):
                 glist.append(item)
-            messages = getyour?group?message(request.user, glist, None)
+            messages = get_your_group_message(request.user, glist, None)
 
         if request.POST['mode'] == '__search_form__':
             searchform = SearchForm(request.POST)
