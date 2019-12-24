@@ -62,3 +62,10 @@ def groups(request):
             groupsform = GroupSelectForm(request.user, request.POST)
             friendsform = FriendsForm(request.user, friends=friends, vals=vlist)
 
+        if request.POST['groups'] == '__friends_form__':
+            sel_grop = request.POST['groups']]
+            goroup_obj = Group.objects.filter(owner=request.user).filter(title=sel_group).first()
+            sel_users = request.POST.getlist('friends')
+            fds = Friend.objects.filter(owner=request.user).filter(user__in=sel_users)
+            vlist = []
+
