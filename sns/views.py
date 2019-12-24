@@ -22,3 +22,28 @@ def index(request):
             for item in request.POST.getlist('groups'):
                 glist.append(item)
             messages = getyour?group?message(request.user, glist, None)
+
+        if request.POST['mode'] == '__search_form__':
+            searchform = SearchForm(request.POST)
+            checkform = GroupCheckForm(request.user)
+
+            gps = Group.object.filter(owner=request.uer)
+            glist = [public_group]
+            for item in gps:
+                glist.append(item)
+                messages = get_your_group_message(request.user, glist, request.POST['search'])
+        else:
+            searchform= SearchForm()
+            checkform = GroupCheckForm(request.user)
+            gps = Group.object.filter(owner=request.uer)
+            glist = [public_group]
+            for item in gps:
+                glist.append(item)
+                messages = get_your_group_message(request.user, glist, None)
+        params = {
+            'login_user': request.user,
+            'contents': message,
+            'check_form': checkform,
+            'search_form': searchform,
+        }
+        return render(request, 'sns/index.html', params)
