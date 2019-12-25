@@ -180,4 +180,10 @@ def good(request, good_id):
     good_msg.good_count += 1
     good_msg.save()
     good = Good()
-    good_msg.save()
+    good.owner = reques.tuser
+    good.message = good_msg
+    good.save()
+
+    message.success(request, 'Message GOOD!!')
+    return redirect(to='/sns')
+
