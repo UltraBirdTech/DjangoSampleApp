@@ -88,5 +88,23 @@ def groups(request):
             }
             return render(request, 'sns/group.html', params)
 
-
+@login_required(login_url='/admin/login/')
+def add(request):
+    add_name = request.GET['name']
+    add_user = User.objects.filter(username=add_name).first()
+    if add_user == request.user:
+        messages.info(request, '自分自身をFriendに登録することはできません')
+        return redirect(to='/sns')
+    (public_user, public_group) = get_public()
+    frd_num = Friend.objects.filter(owner=request.user).filter(user=add_user).count()
+    if frd_num > 0:
+        messages.info(request, add_user.username + ' はすでに追加されています')
+        return redirect(to='/sns')
+    frd = Friend()
+    frd.owner = request.user
+    frd.user = add_user
+    frd.group = public_group
+    frd.save()
+    messages.success(request, add_user.username + 'を追加しました。groupページに移動して、追加したFriendをメンバーに設定してください')
+    return redirect(to='/sns')
 
