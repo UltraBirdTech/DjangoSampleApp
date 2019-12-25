@@ -160,4 +160,13 @@ def share(request, share_id):
         share_msg.share_content += 1
         share_msg.save()
         message.success(request, 'Shared Message!')
-        return redirect(to='/sns/)
+        return redirect(to='/sns/')
+    form = PostForm(request.user)
+    params = {
+        'login_use': request.user,
+        'form': form,
+        'share': share,
+    }
+    return render(request, 'sns/share.html', params)
+
+
