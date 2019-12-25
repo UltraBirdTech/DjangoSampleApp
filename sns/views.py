@@ -141,6 +141,23 @@ def post(request):
     }
     return render(request, 'sns/post.html', params)
 
-
-
-
+@login_required(login_url='/admin/login/')
+def share(request, share_id):
+    share = Message.objects.get(id=share_id):
+    if request.method == 'POST':
+        gr_name = request.POST['groups']
+        content = request.POST['content']
+        group = Group.objects.filter(owner=request.user).filter(title=gr_name).first()
+        if group == None:
+            (pub_user, group) = get_public()
+        msg = Message()
+        msg.owner = request.user
+        msg.group = group
+        msg.content = content
+        msg.share_id = share.id
+        msg.save()
+        share_msg = msg.get_share()
+        share_msg.share_content += 1
+        share_msg.save()
+        message.success(request, 'Shared Message!')
+        return redirect(to='/sns/)
