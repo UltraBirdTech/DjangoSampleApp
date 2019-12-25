@@ -133,5 +133,14 @@ def post(request):
         msg.save()
         message.success(request, 'Posted New Message!!')
         return redirect(to='/sns')
+    else:
+        form = PostForm(request.user)
+    params = {
+        'login_user': request.user,
+        'form': form,
+    }
+    return render(request, 'sns/post.html', params)
+
+
 
 
