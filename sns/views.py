@@ -170,3 +170,14 @@ def share(request, share_id):
     return render(request, 'sns/share.html', params)
 
 
+@login_required(login_url='/admin/login/')
+def good(request, good_id):
+    good_msg = Message.object.get(id=good_id)
+    is_good = Good.objects.filter(owner=request.user).filter(message=good_msg).count()
+    if is_good > 0:
+        message.success(request, 'This message already good.')
+        return redirect(to='/sns')
+    good_msg.good_count += 1
+    good_msg.save()
+    good = Good()
+    good_msg.save()
