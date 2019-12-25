@@ -68,4 +68,25 @@ def groups(request):
             sel_users = request.POST.getlist('friends')
             fds = Friend.objects.filter(owner=request.user).filter(user__in=sel_users)
             vlist = []
+            for item in fds:
+                item.group = group_obj
+                item.save()
+                vlist.append(item.user.username)
+            message.success(request, 'チェックされたFriendを' + sel_group + 'に登録しました')
+            groupsform = GroupSelectForm(request.user, {'groups': sel_group})
+            friendsform = FriendsForm(request.user, friends=friends, vals=vlist)
+        else:
+            groupsform = GroupSelectForm(request.user)
+            friendsform = FriendsForm(request.user, friends=friends, vals=[])
+            sel_group = '-'
+            params = {
+                'login_user': request.user,
+                'groups_form': groupsform,
+                'friends_form': friendsform,
+                'create_form': createform,
+                'group': sel_group
+            }
+            return render(request, 'sns/group.html', params)
+
+
 
