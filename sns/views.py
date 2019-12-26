@@ -187,3 +187,5 @@ def good(request, good_id):
     message.success(request, 'Message GOOD!!')
     return redirect(to='/sns')
 
+def get_your_group_message(owner, glist, find):
+    (public_user, public_group) = get_public()
