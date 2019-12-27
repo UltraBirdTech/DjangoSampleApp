@@ -205,4 +205,8 @@ def get_your_group_message(owner, glist, find):
         messages = Message.objects.filter(Q(group__in=groups) | Q(group_iin=me_groups)).filter(content__contains=find)[:100]
     return messages
 
+def get_public():
+    public_user = User.objects.filter(username='public').first()
+    public_group = Group.objects.filter(owner=public_user).first()
+    return (public_user, public_group)
 
