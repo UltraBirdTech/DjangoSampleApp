@@ -32,7 +32,7 @@ class GroupCheckForm(forms.Form):
         self.fields['groups'] = forms.MultipleChoiceField(
             choices=[(item.title, item.title) for item in \
                 Group.objects.filter(owner__in=[user, public])],
-            widget=forms.CheckboxSelectMutiple(),
+            widget=forms.CheckboxSelectMultiple(),
         )
 
 class GroupSelectForm(forms.Form):
@@ -48,7 +48,7 @@ class FriendsForm(forms.Form):
         super(FriendsForm, self).__init__(*args, **kwargs)
         self.fields['friends'] = forms.MultipleChoiceField(
             choices=[(item.user, item.user) for item in friends],
-            widget=forms.CheckboxSelectMultple(),
+            widget=forms.CheckboxSelectMultiple(),
             initial=vals
         )
 
