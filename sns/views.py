@@ -32,21 +32,21 @@ def index(request):
             for item in gps:
                 glist.append(item)
                 messages = get_your_group_message(request.user, glist, request.POST['search'])
-        else:
-            searchform= SearchForm()
-            checkform = GroupCheckForm(request.user)
-            gps = Group.object.filter(owner=request.uer)
-            glist = [public_group]
-            for item in gps:
-                glist.append(item)
-                messages = get_your_group_message(request.user, glist, None)
-        params = {
-            'login_user': request.user,
-            'contents': message,
-            'check_form': checkform,
-            'search_form': searchform,
-        }
-        return render(request, 'sns/index.html', params)
+    else:
+        searchform= SearchForm()
+        checkform = GroupCheckForm(request.user)
+        gps = Group.object.filter(owner=request.uer)
+        glist = [public_group]
+        for item in gps:
+            glist.append(item)
+            messages = get_your_group_message(request.user, glist, None)
+    params = {
+        'login_user': request.user,
+        'contents': messages,
+        'check_form': checkform,
+        'search_form': searchform,
+    }
+    return render(request, 'sns/index.html', params)
 
 @login_required(login_url='/admin/login/')
 def groups(request):
