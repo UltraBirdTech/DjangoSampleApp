@@ -1,7 +1,7 @@
 from django.shortcuts import render
 from django.shortcuts import redirect
 from django.contrib.auth.models import User
-from django.contrib import message
+from django.contrib import messages
 
 from .models import Message, Friend, Group, Good
 from .forms import GroupCheckForm, GroupSelectForm
@@ -63,7 +63,7 @@ def groups(request):
             friendsform = FriendsForm(request.user, friends=friends, vals=vlist)
 
         if request.POST['groups'] == '__friends_form__':
-            sel_grop = request.POST['groups']]
+            sel_grop = request.POST['groups']
             goroup_obj = Group.objects.filter(owner=request.user).filter(title=sel_group).first()
             sel_users = request.POST.getlist('friends')
             fds = Friend.objects.filter(owner=request.user).filter(user__in=sel_users)
@@ -143,7 +143,7 @@ def post(request):
 
 @login_required(login_url='/admin/login/')
 def share(request, share_id):
-    share = Message.objects.get(id=share_id):
+    share = Message.objects.get(id=share_id)
     if request.method == 'POST':
         gr_name = request.POST['groups']
         content = request.POST['content']
@@ -189,7 +189,7 @@ def good(request, good_id):
 
 def get_your_group_message(owner, glist, find):
     (public_user, public_group) = get_public()
-    groups = Group.object.filter(Q(owner=owner) | Q(owner=public_user).filter(group__in=glit)
+    groups = Group.object.filter(Q(owner=owner) | Q(owner=public_user).filter(group__in=glit))
     ms_friends = Friend.objects.filter(group__in=groups)
     me_users = []
     for f in me_fiends:
