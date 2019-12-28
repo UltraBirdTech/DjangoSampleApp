@@ -20,7 +20,7 @@
 
 {% block content %}
 <form action="{% url 'index' %}" method="post">
-    {% scrf_token %}
+    {% csrf_token %}
     <input type="hidden" name="mode" value="__search_form__">
         {{search_form}}
     <button>Search</button>
