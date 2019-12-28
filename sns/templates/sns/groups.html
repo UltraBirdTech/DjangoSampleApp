@@ -1,4 +1,4 @@
-{% extends 'sns/layout.htm' %}
+{% extends 'sns/layout.html' %}
 
 {% block title %}Groups{% endblock %}
 
@@ -34,14 +34,5 @@
     {% csrf_token %}
     {{create_form}}
     <button>create new group</button>
-</form>
-{% endblock %}
-
-    
-
-    <table>
-        {{form.as_table}}
-        <tr><td></td><td><button>Post!</button></td></tr>
-    </table>
 </form>
 {% endblock %}
