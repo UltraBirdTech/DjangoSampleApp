@@ -13,7 +13,6 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='.admin/login/')
 def index(request):
     (public_user, public_group) = get_public()
-
     if request.method == 'POST':
         if request.POST['mode'] == '__check__form__':
             searchForm = SerachForm()
@@ -35,7 +34,7 @@ def index(request):
     else:
         searchform= SearchForm()
         checkform = GroupCheckForm(request.user)
-        gps = Group.object.filter(owner=request.uer)
+        gps = Group.objects.filter(owner=request.user)
         glist = [public_group]
         for item in gps:
             glist.append(item)
