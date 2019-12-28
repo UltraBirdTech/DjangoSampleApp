@@ -13,6 +13,7 @@ from django.contrib.auth.decorators import login_required
 @login_required(login_url='.admin/login/')
 def index(request):
     (public_user, public_group) = get_public()
+    messages = ''
     if request.method == 'POST':
         if request.POST['mode'] == '__check__form__':
             searchForm = SerachForm()
