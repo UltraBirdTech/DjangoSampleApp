@@ -50,7 +50,7 @@ def index(request):
 
 @login_required(login_url='/admin/login/')
 def groups(request):
-    friends = Friend.object.filter(owner=request.user)
+    friends = Friend.objects.filter(owner=request.user)
     if request.method == 'POST':
         if request.POST['groups'] == '__groups_form__':
             sel_grop = request.POST['groups']
@@ -75,18 +75,19 @@ def groups(request):
             message.success(request, 'チェックされたFriendを' + sel_group + 'に登録しました')
             groupsform = GroupSelectForm(request.user, {'groups': sel_group})
             friendsform = FriendsForm(request.user, friends=friends, vals=vlist)
-        else:
-            groupsform = GroupSelectForm(request.user)
-            friendsform = FriendsForm(request.user, friends=friends, vals=[])
-            sel_group = '-'
-            params = {
-                'login_user': request.user,
-                'groups_form': groupsform,
-                'friends_form': friendsform,
-                'create_form': createform,
-                'group': sel_group
-            }
-            return render(request, 'sns/group.html', params)
+    else:
+        groupsform = GroupSelectForm(request.user)
+        friendsform = FriendsForm(request.user, friends=friends, vals=[])
+        sel_group = '-'
+    createform = CreateGroupForm()
+    params = {
+        'login_user': request.user,
+        'groups_form': groupsform,
+        'friends_form': friendsform,
+        'create_form': createform,
+        'group': sel_group
+    }
+    return render(request, 'sns/groups.html', params)
 
 @login_required(login_url='/admin/login/')
 def add(request):
