@@ -53,8 +53,13 @@ def index(request):
 @login_required(login_url='/admin/login/')
 def groups(request):
     friends = Friend.objects.filter(owner=request.user)
+    groupsform = ''
+    friendsform = ''
+    createform = ''
+    sel_group = ''
     if request.method == 'POST':
         if request.POST['groups'] == '__groups_form__':
+            print(request)
             sel_grop = request.POST['groups']
             gp = Group.objects.filter(owner=request.user).filter(title=sel_group).first()
             fds = Friend.objects.filter(owner=request.user).filter(group=gp)
@@ -74,7 +79,7 @@ def groups(request):
                 item.group = group_obj
                 item.save()
                 vlist.append(item.user.username)
-            message.success(request, 'チェックされたFriendを' + sel_group + 'に登録しました')
+            messages.success(request, 'チェックされたFriendを' + sel_group + 'に登録しました')
             groupsform = GroupSelectForm(request.user, {'groups': sel_group})
             friendsform = FriendsForm(request.user, friends=friends, vals=vlist)
     else:
@@ -117,7 +122,7 @@ def creategroup(request):
     gp.owner = request.user
     gp.title = request.POST['group_name']
     gp.save()
-    message.info(request, 'Create new Group')
+    messages.info(request, 'Create new Group')
     return redirect(to='/sns/groups')
 
 
