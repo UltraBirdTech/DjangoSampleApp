@@ -29,7 +29,7 @@ def index(request):
             searchform = SearchForm(request.POST)
             checkform = GroupCheckForm(request.user)
 
-            gps = Group.object.filter(owner=request.uer)
+            gps = Group.objects.filter(owner=request.user)
             glist = [public_group]
             for item in gps:
                 glist.append(item)
@@ -134,7 +134,7 @@ def post(request):
         msg.group = group
         msg.content = content
         msg.save()
-        message.success(request, 'Posted New Message!!')
+        messages.success(request, 'Posted New Message!!')
         return redirect(to='/sns')
     else:
         form = PostForm(request.user)
@@ -175,19 +175,19 @@ def share(request, share_id):
 
 @login_required(login_url='/admin/login/')
 def good(request, good_id):
-    good_msg = Message.object.get(id=good_id)
+    good_msg = Message.objects.get(id=good_id)
     is_good = Good.objects.filter(owner=request.user).filter(message=good_msg).count()
     if is_good > 0:
-        message.success(request, 'This message already good.')
+        messages.success(request, 'This message already good.')
         return redirect(to='/sns')
     good_msg.good_count += 1
     good_msg.save()
     good = Good()
-    good.owner = reques.tuser
+    good.owner = request.user
     good.message = good_msg
     good.save()
 
-    message.success(request, 'Message GOOD!!')
+    messages.success(request, 'Message GOOD!!')
     return redirect(to='/sns')
 
 def get_your_group_message(owner, glist, find):
