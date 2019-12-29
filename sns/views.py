@@ -160,9 +160,9 @@ def share(request, share_id):
         msg.share_id = share.id
         msg.save()
         share_msg = msg.get_share()
-        share_msg.share_content += 1
+        share_msg.share_count += 1
         share_msg.save()
-        message.success(request, 'Shared Message!')
+        messages.success(request, 'Shared Message!')
         return redirect(to='/sns/')
     form = PostForm(request.user)
     params = {
