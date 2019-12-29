@@ -14,6 +14,8 @@ from django.contrib.auth.decorators import login_required
 def index(request):
     (public_user, public_group) = get_public()
     messages = ''
+    checkform = ''
+    searchform = ''
     if request.method == 'POST':
         if request.POST['mode'] == '__check__form__':
             searchForm = SerachForm()
